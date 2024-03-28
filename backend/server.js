@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose'); 
-
+const recipeRouter = require('./controllers/recipes_controllers');
 const app = express();
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -11,6 +11,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   .catch(err => console.error('Could not connect to MongoDB', err));
 
 app.use(express.json()); // Middleware to parse JSON bodies
-
+app.use('/recipes', recipeRouter);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
