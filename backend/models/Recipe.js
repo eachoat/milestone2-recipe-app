@@ -6,7 +6,7 @@ const recipeSchema = new mongoose.Schema({
   instructions: { type: String, required: true },
   category: { type: String, required: false },
   prepTime: { type: Number, required: true }, 
-});
+}, { timestamps: true })
 
 const Recipe = mongoose.model('Recipe', recipeSchema);
 
