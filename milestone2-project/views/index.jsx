@@ -1,31 +1,28 @@
 const React = require('react')
 const Default = require('./layouts/default')
 
-function Index({recipes, title}) {
+function Index ({breads})  {
     return (
-      <Default title={title}>
-        
-        <h2>Index Page</h2>
-        <h3>Recipes</h3>
-        <ul>
-            {
-                recipes.map((recipe, index) => {
-                    return(
+        <Default>
+            <h2>Index Page</h2>
+            {/* <p>I have {breads[0].name} bread!</p> */}
+            {/* This is a JSX comment. */}
+            <ul>
+                {
+                    breads.map((bread,index) => {
+                        return (
                         <li key={index}>
-                            <a href={`/recipes/${recipe._id}`}>
-                            {recipe.name}
+                            <a href={``}>
+                                {Recipe.name}
                             </a>
-                        </li>
-                    )
-                })
-            }
-        </ul>
-        <div className="addButton">
-            <a href="/recipes/add"><button>Add a new recipe</button></a>
-        </div>
-
-      </Default>
+                        </li>)
+                    })
+                }
+            </ul>
+            <a href={`/recipe/new`}><button>ADD A NEW RECIPE</button></a>
+        </Default>
     )
 }
+
 
 module.exports = Index
