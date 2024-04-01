@@ -11,3 +11,12 @@ recipeRoutes.get('/', (req, res) => {
             })
         })
 })
+
+recipeRoutes.get('/add', (req,res) => {
+    Recipe.find()
+        .then(foundRecipe => {
+            res.render('add', {
+                recipetest: foundRecipe
+            })
+        })
+})
