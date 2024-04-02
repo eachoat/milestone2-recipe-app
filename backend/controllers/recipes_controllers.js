@@ -39,6 +39,18 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+router.get('/search', async (req, res) => {
+    try {
+      const { ingredient } = req.query; // Example: /search?ingredient=flour
+      const recipes = await Recipe.find({ ingredients: ingredient });
+      res.json(recipes);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('An error occurred while fetching the recipes.');
+    }
+  });
+  
+
 // DELETE a recipe by ID
 router.delete('/:id', async (req, res) => {
     try {
