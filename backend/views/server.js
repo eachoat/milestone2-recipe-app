@@ -9,7 +9,7 @@ connectDB();
 
 app.use(express.json()); // Middleware to parse JSON bodies
 
-app.use('/recipes', recipeRouter);
+app.use('/api', recipeRouter);
 
 
 // ROOT ROUTE

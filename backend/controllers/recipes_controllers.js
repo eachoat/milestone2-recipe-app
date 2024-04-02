@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST a new recipe
-router.post('/', async (req, res) => {
+router.post('/recipes', async (req, res) => {
     try {
         const newRecipe = new Recipe(req.body);
         await newRecipe.save();
@@ -41,7 +41,7 @@ router.put('/:id', async (req, res) => {
 
 router.get('/search', async (req, res) => {
     try {
-      const { ingredient } = req.query; // Example: /search?ingredient=flour
+      const { ingredient } = req.query; 
       const recipes = await Recipe.find({ ingredients: ingredient });
       res.json(recipes);
     } catch (error) {
