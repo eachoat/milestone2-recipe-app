@@ -1,13 +1,16 @@
 const mongoose = require('mongoose');
 
-const recipeSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  ingredients: [{ type: String, required: true }],
-  instructions: { type: String, required: true },
-  category: { type: String, required: false },
-  prepTime: { type: Number, required: true }, 
-}, { timestamps: true })
+// Updated to accept a callback function as an argument
+const connectDB = async (callback) => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('Connected to MongoDB');
+    if (callback) callback(null); // Call callback with no error on success
+  } catch (err) {
+    console.error('Could not connect to MongoDB', err);
+    if (callback) callback(err); // Call callback with error
+    process.exit(1); // Exit process with failure
+  }
+};
 
-const Recipe = mongoose.model('Recipe', recipeSchema);
-
-module.exports = Recipe;
+module.exports = connectDB;

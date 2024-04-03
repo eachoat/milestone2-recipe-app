@@ -5,7 +5,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const connectDB = require('./dataBase');
-connectDB();
+connectDB((err) => {
+  if (err) {
+    console.error('Failed to connect to MongoDB, server not started');
+    return;
+  }
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
 
 app.use(express.json()); // Middleware to parse JSON bodies
 
