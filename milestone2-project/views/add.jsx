@@ -1,5 +1,6 @@
 const React = require('react')
 const Default = require('./layouts/default')
+import Footer from './footer'; 
 
 function Add ({recipes}) {
     return (
@@ -41,6 +42,8 @@ function Add ({recipes}) {
         <div className="backButton">
             <a href="/recipes"><button>Go back to the index</button></a>
         </div>
+
+        <Footer />
 
       </Default>
     )
