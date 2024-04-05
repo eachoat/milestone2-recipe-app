@@ -3,17 +3,20 @@ import RecipeItem from './RecipeItem';
 
 function RecipeList() {
   const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(false); 
-  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true); // Start loading before fetching
-    fetch('/api/recipes')
+    const url = '/api/recipes'; 
+    console.log(`Fetching from: ${url}`); 
+    fetch(url)
       .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          // This throws an error and jumps directly to the catch block
+          throw new Error(`Network response was not ok, status: ${response.status}`);
         }
-        return response.json(); // Ensure to return the promise from response.json()
+        return response.json(); // Parse JSON only if the response was ok
       })
       .then(data => {
         setRecipes(data);
@@ -21,8 +24,9 @@ function RecipeList() {
         setError(null); // Reset error state upon successful fetch
       })
       .catch(error => {
-        console.error("Fetching error: ", error);
-        setError(error.message);
+        console.error("Fetching error:", error);
+        
+        setError(`Fetching error: ${error.message}`);
         setLoading(false); // Stop loading on error
       });
   }, []);
@@ -35,7 +39,7 @@ function RecipeList() {
     <div>
       {recipes.length > 0 ? (
         recipes.map(recipe => (
-          <RecipeItem key={recipe._id} recipe={recipe} />
+          <RecipeItem key={recipe._id} recipe={recipe} /> 
         ))
       ) : (
         <div>No recipes found.</div> // Handle case where there are no recipes

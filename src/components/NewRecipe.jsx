@@ -1,23 +1,20 @@
-const React = require('react');
-const { useState } = React; 
-const DefaultLayout = require('./layout/default');
-
-
+import React, { useState } from 'react';
+import DefaultLayout from './layout/default';
 
 function AddNewRecipeForm() {
   const [recipe, setRecipe] = useState({
     title: '',
     ingredients: '',
     instructions: '',
-    category:'',
+    category: '',
     prepTime: '',
   });
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRecipe(prevState => ({
       ...prevState,
-      [name] : value
+      [name]: value,
     }));
   };
 
@@ -26,43 +23,42 @@ function AddNewRecipeForm() {
     try {
       const response = await fetch('/api/recipes', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: recipe.title,
-          ingredients: recipe.ingredients.split(',').map(ingredient => ingredient.trim()), 
-          instructions: recipe.instructions
+          ingredients: recipe.ingredients.split(',').map(ingredient => ingredient.trim()),
+          instructions: recipe.instructions,
         }),
       });
-  if (response.ok) {
-    const newRecipe = await response.json();
-    console.log('Recipe added:', newRecipe);
-    //Reset the form or redirect the user
-     } else {
-      console.error('Recipe not added');
-     }
+      if (response.ok) {
+        const newRecipe = await response.json();
+        console.log('Recipe added:', newRecipe);
+        // Reset the form or redirect the user
+      } else {
+        console.error('Recipe not added');
+      }
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
   return (
-    <DefaultLayout><form onSubmit={handleSubmit}>
-    <label>
-      Title:
-      <input type="text" name="title" value={recipe.title} onChange={handleChange} />
-    </label>
-    <label>
-      Ingredients (coma-separated):
-      <input type="text" name="ingredients" value={recipe.ingredients} onChange={handleChange} />
-    </label>
-    <label>
-    Instructions:
-    <textarea name="instructions" value={recipe.instructions} onChange={handleChange} />
-    </label>
-    <button type="submit">Add Recipe</button>
-  </form></DefaultLayout>
+    <DefaultLayout>
+      <form onSubmit={handleSubmit}>
+      <div className="form-group">
+    <label htmlFor="title">Title</label>
+    <input
+        type="text"
+        id="title"
+        name="title"
+        value={recipe.title}
+        onChange={handleChange}
+        required
+    />
+</div>
+
+      </form>
+    </DefaultLayout>
   );
 }
 
