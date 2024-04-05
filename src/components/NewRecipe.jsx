@@ -1,6 +1,6 @@
 const React = require('react');
 const { useState } = React; 
-const DefaultLayout = require('./layouts/Default');
+const DefaultLayout = require('../components/layout/defualt');
 
 
 

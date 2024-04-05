@@ -1,14 +1,10 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
-import recipeReducer from './reducers/recipeReducer';
+import { configureStore } from '@reduxjs/toolkit';
+import { thunk } from 'redux-thunk';
+import rootReducer from './reducers'; 
 
-const rootReducer = combineReducers({ 
-    recipes: recipeReducer,
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
-
-const store = createStore(
-    rootReducer,
-    applyMiddleware(thunk)
-);
 
 export default store;

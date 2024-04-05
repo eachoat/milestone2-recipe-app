@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchRecipes } from './actions/recipeActions'; 
-import RecipeComponent from './components/RecipeComponent'; 
+import RecipeComponent from './components/NewRecipe'; 
 
 import './App.css';
 
