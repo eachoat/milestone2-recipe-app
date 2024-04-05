@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST a new recipe
-router.post('/recipes', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const newRecipe = new Recipe(req.body);
         await newRecipe.save();

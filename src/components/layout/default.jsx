@@ -1,11 +1,11 @@
-const React = require('react');
+import React from 'react';
 
 function Default({ children, title }) {
   return (
     <html>
       <head>
         <title>{title || 'Default'}</title>
-        </head>
+      </head>
       <body>
         <div className="wrapper">
           <header>
@@ -20,4 +20,4 @@ function Default({ children, title }) {
   );
 }
 
-module.exports = Default;
+export default Default;

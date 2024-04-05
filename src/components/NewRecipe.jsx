@@ -1,6 +1,6 @@
 const React = require('react');
 const { useState } = React; 
-const DefaultLayout = require('../components/layout/defualt');
+const DefaultLayout = require('./layout/default');
 
 
 
@@ -48,21 +48,21 @@ function AddNewRecipeForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Title:
-        <input type="text" name="title" value={recipe.title} onChange={handleChange} />
-      </label>
-      <label>
-        Ingredients (coma-separated):
-        <input type="text" name="ingredients" value={recipe.ingredients} onChange={handleChange} />
-      </label>
-      <label>
-      Instructions:
-      <textarea name="instructions" value={recipe.instructions} onChange={handleChange} />
-      </label>
-      <button type="submit">Add Recipe</button>
-    </form>
+    <DefaultLayout><form onSubmit={handleSubmit}>
+    <label>
+      Title:
+      <input type="text" name="title" value={recipe.title} onChange={handleChange} />
+    </label>
+    <label>
+      Ingredients (coma-separated):
+      <input type="text" name="ingredients" value={recipe.ingredients} onChange={handleChange} />
+    </label>
+    <label>
+    Instructions:
+    <textarea name="instructions" value={recipe.instructions} onChange={handleChange} />
+    </label>
+    <button type="submit">Add Recipe</button>
+  </form></DefaultLayout>
   );
 }
 

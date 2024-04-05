@@ -1,16 +1,33 @@
 const mongoose = require('mongoose');
 
-// Updated to accept a callback function as an argument
-const connectDB = async (callback) => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Connected to MongoDB');
-    if (callback) callback(null); // Call callback with no error on success
-  } catch (err) {
-    console.error('Could not connect to MongoDB', err);
-    if (callback) callback(err); // Call callback with error
-    process.exit(1); // Exit process with failure
-  }
-};
+const recipeSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true, 
+    trim: true, 
+  },
+  ingredients: {
+    type: [String],
+    required: true, 
+    validate: [arrayLimit, 'Ingredients list cannot be empty'], 
+  },
+  instructions: {
+    type: String,
+    required: true, 
+    trim: true,
+  },
+  
+  createdAt: {
+    type: Date,
+    default: Date.now, // Default to the current date
+  },
+});
 
-module.exports = connectDB;
+// Custom validator function for the ingredients array
+function arrayLimit(val) {
+  return val.length > 0;
+}
+
+const Recipe = mongoose.model('Recipe', recipeSchema);
+
+module.exports = Recipe; 
