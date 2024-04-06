@@ -69,11 +69,14 @@ recipes.get('/:id', (req, res) => {
 
 //CREATE
 recipes.post('/', (req, res) =>{
-    const { title, image, ingredients, instructions } = req.body;
+    const { title, prepTime, createdAt, image,category, ingredients, instructions } = req.body;
 
     const recipe = new Recipe({
         title,
+        prepTime,
+        createdAt,
         image,
+        category,
         ingredients,
         instructions
     });
