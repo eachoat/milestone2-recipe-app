@@ -16,10 +16,7 @@ const recipeSchema = new mongoose.Schema({
     required: true, 
     validate: [arrayLimit, 'Ingredients list cannot be empty'], 
   },
-  image: {
-    type: String, 
-    default: 'http://placehold.it/500x500.png'
-  },
+
   instructions: {
     type: String,
     required: true, 
@@ -41,8 +38,13 @@ const recipeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now, // Default to the current date
   },
+  image: {
+    type: String, 
+    default: 'http://placehold.it/500x500.png'
+  },
 });
 
 const Recipe = mongoose.model('Recipe', recipeSchema);
 
 module.exports = Recipe;
+
