@@ -1,42 +1,34 @@
-// DEPENDENCIES
-const express = require('express');
-const mongoose = require('mongoose');
+const methodOverride = require('method-override')
+const express = require('express')
+const mongoose = require('mongoose')
 
-// CONFIGURATION
-require('dotenv').config();
-const PORT = process.env.PORT || 3008; 
-const app = express();
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB:', process.env.MONGO_URI))
-  .catch(err => console.error('Error connecting to MongoDB:', err));
+require('dotenv').config()
+const PORT = process.env.PORT
+const app = express()
 
-// MIDDLEWARE
-app.use(express.urlencoded({extended: true}));
-app.use(express.json()); 
+app.use(methodOverride('_method'))
+app.use(express.urlencoded({extended: true}))
+app.use(express.static('public'))
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jsx')
+app.engine('jsx', require('express-react-views').createEngine())
 
-// ROOT ROUTE
-app.get('/', (req, res) => {
-  res.send('Food!'); 
-});
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then(
+    () => console.log('connected to the database!~')
+    )
+//ROUTES
+app.get('/', (req,res) =>{
+    res.send('Welcome to MY recipe app')
+})
 
-// BOOKS ROUTES
-const booksController = require('./controllers/recipeController'); // Make sure this path matches your file structure
-app.use('/books', booksController);
+const recipeController = require('./controllers/recipeController')
+app.use('/recipes', recipeController)
 
-// 404 NOT FOUND HANDLER
-// This should come after all other route definitions
-app.use((req, res, next) => {
-  res.status(404).send("Sorry, can't find that!");
-});
-
-// GLOBAL ERROR HANDLER
-// This should be the last piece of middleware you use/register
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
-// START SERVER
 app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}`);
-});
+    console.log('Listening on port', PORT)
+})
+
+//ERROR PAGE
+app.get('*', (req,res) => {
+    res.send('404')
+})
