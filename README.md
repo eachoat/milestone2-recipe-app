@@ -2,7 +2,7 @@
 
 ## Project Descriprion
 
-The <insert name> app allows users to upload, save, and view recipes.
+This app allows users to upload, save, and view recipes.
 
 ### Project Team: 
 
@@ -54,3 +54,4 @@ web-vitals
 
 ##### Future features
 Generate new recipes with ingredients on hand.
+Add and share favorites.
