@@ -5,7 +5,7 @@ function New ({}) {
     return(
         <Default>
             <h2>Add A New Recipe</h2>
-            <form action="/recipes" method='POST'>
+            <form action="/recipes" method='POST' enctype="multipart/form-data">
                 <label htmlFor='title'>Name</label>
                 <input
                     type="text"
@@ -14,15 +14,15 @@ function New ({}) {
                     placeholder='Name....'
                     required
                 />
-                <label htmlFor="image">Image</label>
-                <input
-                    type="text"
-                    name="image"
-                    id="image"
-                    accept="image/*"
-                    required
-                />
-                <label htmlFor='ingredients'>Ingredients</label>
+                    <label htmlFor="image">Image</label>
+                    <input
+                        type="file"
+                        name="image"
+                        id="image"
+                        accept="image/*"
+                        required
+                    />
+            <label htmlFor='ingredients'>Ingredients</label>
                 <input 
                     type="text"
                     name='ingredients'
@@ -38,6 +38,23 @@ function New ({}) {
                     placeholder='List Instructioins...'
                     required
                 />
+         <label htmlFor='category'>Category</label>
+                <input 
+                    type="text"
+                    name='category'
+                    id='category'
+                    placeholder='Choose a category...'
+                    required
+                />
+        <label htmlFor='prepTime'>Prep Time</label>
+                <input 
+                    type="number"
+                    name='prepTime'
+                    id='prepTime'
+                    placeholder='Prep time...'
+                    required
+                />
+
                     <br />
                 <input type='submit'/>
             </form>
