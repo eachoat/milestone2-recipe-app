@@ -1,12 +1,16 @@
-require('dotenv').config();
+
 const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 
-const PORT = process.env.PORT || 3001;
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+  }
+  
+
+const PORT = process.env.PORT || 3009;
 const app = express();
 
-// Ensure you're using the correct environment variable for your MongoDB URI.
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -22,19 +26,21 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
 
-// ROUTES
+// Main Route
 app.get('/', (req, res) => {
   res.send('Welcome to MY recipe app');
 });
 
+// Recipe Controller
 const recipeController = require('./controllers/recipeController');
 app.use('/recipes', recipeController);
 
+// Server Listen
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-// ERROR PAGE
-app.get('*', (req, res) => {
+// Catch-all Route for 404 Errors
+app.get('*', (req, res, next) => {
   res.status(404).send('404 Page Not Found');
 });

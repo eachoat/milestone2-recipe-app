@@ -1,28 +1,38 @@
-const React = require('react')
-const Default = require('./layouts/default')
+import React from 'react'
+import { Default } from './layouts/Default';
 
-function Show ({recipe, index}) {
-    const formattedDate = `${recipe.createdAt.getMonth() + 1}/${recipe.createdAt.getDate()}/${recipe.createdAt.getFullYear()}`;
+
+function formatDate(date) {
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
+
+function Show({ recipe }) {
+    const { title, category, prepTime, createdAt, image, ingredients, instructions, id } = recipe;
+    const formattedDate = formatDate(createdAt);
 
     return (
         <Default>
-            <h2>{recipe.title}</h2>
-            <h4>For: {recipe.category}</h4>
-            <h4>PrepTime: {recipe.prepTime}</h4>
+            <h2>{title}</h2>
+            <h4>For: {category}</h4>
+            <h4>Prep Time: {prepTime}</h4>
             <h4>Created on: {formattedDate}</h4>
-            <img src={recipe.image} alt={recipe.title} />
-            <h5>{recipe.ingredients}</h5>
-            <h5>{recipe.instructions}</h5>
+            <img src={image} alt={title} />
+            <h5>{ingredients}</h5>
+            <h5>{instructions}</h5>
 
             <br />
 
-            <a href='/recipes'><button>Return</button></a>
-            <form action={`/recipes/${recipe.id}?_method=DELETE`} method="POST">
+            <a href='/recipes'>
+                <button>Return</button>
+            </a>
+            <form action={`/recipes/${id}?_method=DELETE`} method="POST">
                 <input type='submit' value="DELETE"/>
             </form>
-            <a href={`/recipes/${recipe.id}/edit`}><button>Edit</button></a>
+            <a href={`/recipes/${id}/edit`}>
+                <button>Edit</button>
+            </a>
         </Default>
     )
 }
 
-module.exports = Show
+export default Show

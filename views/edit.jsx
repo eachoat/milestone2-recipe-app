@@ -1,30 +1,72 @@
-const React = require('react')
-const Default = require('./layouts/default')
+import React, { useState } from 'react';
+import { Default } from './layouts/Default';
 
+function Edit({ recipe }) {
+    const [formData, setFormData] = useState({
+        title: recipe.title,
+        prepTime: recipe.prepTime,
+        category: recipe.category,
+        image: recipe.image,
+        ingredients: recipe.ingredients,
+        instructions: recipe.instructions
+    });
 
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: value
+        }));
+    };
 
-function Edit ({recipe, index}){
-    return(
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch(`/recipes/${recipe.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+           
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    };
+
+    return (
         <Default>
             <h2>Edit The Recipe</h2>
-            <form action={`/recipes/${recipe.id}?_method=PUT`} method='POST'>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="title">Name</label>
                 <input 
                     type="text" 
-                    name = "title"
-                    id = "title"
+                    name="title"
+                    id="title"
                     required
-                    defaultValue = {recipe.title}
+                    value={formData.title}
+                    onChange={handleChange}
                 />
                 <label htmlFor="prepTime">Prep Time</label>
                 <input 
-                    type="int"
-                    name='prepTime'
-                    id='prepTime'
+                    type="number"
+                    name="prepTime"
+                    id="prepTime"
                     required
+                    value={formData.prepTime}
+                    onChange={handleChange}
                 />
                 <label htmlFor="category">Category</label>
-                <select name="category" id="category">
+                <select 
+                    name="category" 
+                    id="category" 
+                    value={formData.category}
+                    onChange={handleChange}
+                >
                     <option value="Breakfast">Breakfast</option>
                     <option value="Lunch">Lunch</option>
                     <option value="Dinner">Dinner</option>
@@ -35,27 +77,28 @@ function Edit ({recipe, index}){
                     type="text"
                     name="image"
                     id="image"
-                    defaultValue={recipe.image}
+                    value={formData.image}
+                    onChange={handleChange}
                 />
                 <label htmlFor='ingredients'>Ingredients</label>
-                <input 
-                    type="text"
+                <textarea
                     name='ingredients'
                     id='ingredients'
-                    defaultValue={recipe.ingredients}
-                />
+                    value={formData.ingredients}
+                    onChange={handleChange}
+                ></textarea>
                 <label htmlFor='instructions'>Instructions</label>
-                <input 
-                    type="text" 
+                <textarea
                     name='instructions'
                     id='instructions'
-                    defaultValue={recipe.instructions}
-                />
+                    value={formData.instructions}
+                    onChange={handleChange}
+                ></textarea>
                 <br />
-                <input type="submit"/>
+                <button type="submit">Save Changes</button>
             </form>
         </Default>
-    )
+    );
 }
 
-module.exports = Edit;
+export default Edit;
