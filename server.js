@@ -1,15 +1,19 @@
-
 const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const cors = require('cors');
 
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-  }
-  
+  require('dotenv').config();
+}
 
-const PORT = process.env.PORT || 3009;
+const PORT = process.env.PORT || 5000;
 const app = express();
+
+// Security enhancements
+app.use(helmet());
+app.use(cors()); 
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -20,6 +24,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static('public'));
 
 app.set('views', __dirname + '/views');
@@ -35,12 +40,18 @@ app.get('/', (req, res) => {
 const recipeController = require('./controllers/recipeController');
 app.use('/recipes', recipeController);
 
+// Catch-all Route for 404 Errors
+app.get('*', (req, res) => {
+  res.status(404).send('404 Page Not Found');
+});
+
+// Error Handling Middleware (basic example)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+
 // Server Listen
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
-});
-
-// Catch-all Route for 404 Errors
-app.get('*', (req, res, next) => {
-  res.status(404).send('404 Page Not Found');
 });
