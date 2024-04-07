@@ -26,7 +26,8 @@ function RecipeList() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    <DefaultLayout>
+          <div>
       <h2>Recipes</h2>
       <ul>
         {recipes.map(recipe => (
@@ -36,6 +37,8 @@ function RecipeList() {
         ))}
       </ul>
     </div>
+    </DefaultLayout>
+
   );
 }
 

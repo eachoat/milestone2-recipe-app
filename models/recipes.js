@@ -33,7 +33,7 @@ const recipeSchema = new mongoose.Schema({
     type: String,
     required: true,
     // Enum specifies the allowed values for the category
-    enum: ['Breakfast', 'Lunch', 'Dinner', 'Dessert'],
+    enum: ['Main Course','Breakfast', 'Lunch', 'Dinner', 'Dessert'],
     trim: true,
   },
   

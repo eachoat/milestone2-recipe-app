@@ -1,24 +1,24 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
-import RecipeList from './components/RecipeList'; // Ensure this is the correct path
-import RecipeDetail from './components/RecipeDetail'; // Ensure this is the correct path
-import AddRecipeForm from './components/AddRecipeForm'; // Ensure this is the correct path
-import DefaultLayout from './components/layouts/DefaultLayout'; // Ensure this is the correct path
+import HomePage from './components/HomePage'; 
+import DefaultLayout from './layouts/DefaultLayout';
+import RecipeDetail from './components/RecipeDetail'; 
+import AddRecipeForm from './components/AddRecipeForm'; 
 
 function App() {
   return (
     <Router>
-      <DefaultLayout>
-        <Routes>
-          <Route path="/" element={<RecipeList />} />
-          <Route path="/add-recipe" element={<AddRecipeForm />} />
-          <Route path="/recipes/:recipeId" element={<RecipeDetail />} />
-          {/* Additional routes as needed */}
-        </Routes>
-      </DefaultLayout>
+      <Routes>
+        <Route path="/" element={<DefaultLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="recipe/:id" element={<RecipeDetail />} />
+          <Route path="add-recipe" element={<AddRecipeForm />} />
+          {/* Add more nested routes as needed */}
+        </Route>
+      </Routes>
     </Router>
   );
 }
+
 
 export default App;

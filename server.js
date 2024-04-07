@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 
 // Recipe Controller
 const recipeController = require('./controllers/recipeController');
-app.use('/recipes', recipeController);
+app.use('/api', recipeController);
 
 // Catch-all Route for 404 Errors
 app.get('*', (req, res) => {
