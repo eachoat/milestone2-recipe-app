@@ -14,7 +14,21 @@ function New ({}) {
                     placeholder='Name....'
                     required
                 />
-                    <label htmlFor="image">Image</label>
+                    <label htmlFor='prepTime'>Prep Time</label>
+                <input 
+                type="int"
+                name='prepTime'
+                id='prepTime'
+                required
+                />
+                <label htmlFor="category">Category</label>
+                <select name='category' id='category'>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Dessert">Dessert</option>
+                </select>
+                <label htmlFor="image">Image</label>
                     <input
                         type="file"
                         name="image"
@@ -56,7 +70,7 @@ function New ({}) {
                 />
 
                     <br />
-                <input type='submit'/>
+                <input href='/recipes' type='submit'/>
             </form>
             <div className='backButton'>
                 <a href='/recipes'><button>Return</button></a>

@@ -23,27 +23,50 @@ recipes.get('/', (req, res) => {
         });
 });
 
-// NEW
-recipes.get('/new', (req, res) => {
-    res.render('new');
-});
+//EDIT
+recipes.get('/:id/edit', (req,res) => {
+    Recipe.findById(req.params.id)
+        .then(foundRecipe => {
+            res.render('edit', {
+                recipe:foundRecipe
+            })
+        })
+})
 
-// CREATE with image upload
-recipes.post('/recipes', upload.single('image'), (req, res) => {
-   
-    const imagePath = req.file ? req.file.path.replace('public', '') : '';
-    Recipe.create({
-        title: req.body.title,
-        image: imagePath,
-        ingredients: req.body.ingredients,
-        instructions: req.body.instructions
+//SHOW
+recipes.get('/:id', (req, res) => {
+    Recipe.findById(req.params.id)
+        .then(foundRecipe => {
+            res.render('show', {
+                recipe: foundRecipe
+            })
+        })
+        .catch(err => {
+            res.send('404')
+        })
     })
-    .then(newRecipe => res.redirect(`/recipes/${newRecipe.id}`))
-    .catch(err => {
-        console.error('Error saving recipe to database:', err);
-        res.status(500).send('Error saving recipe to database');
-    });
-});
 
+
+//CREATE
+recipes.post('/', (req, res) =>{
+    const { title, prepTime, createdAt, image,category, ingredients, instructions } = req.body;
+
+    const recipe = new Recipe({
+        title,
+        prepTime,
+        createdAt,
+        image,
+        category,
+        ingredients,
+        instructions
+    });
+
+    recipe.save()
+        .then(() => res.json(recipe))
+        .catch(err => {
+            console.error('Error saving recipe to database:', err);
+            res.status(500).send('Error saving recipe to database');
+        });
+})
 
 module.exports = recipes;
